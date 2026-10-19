@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Praktikum 5 - JavaScript Dasar</title>
+  <style>
+    :root { --ink:#172033; --muted:#64748b; --line:#dbe3ef; --accent:#2563eb; --soft:#eff6ff; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Arial,Helvetica,sans-serif; background:#f4f7fb; color:var(--ink); line-height:1.55; }
+    header { background:#14213d; color:white; padding:30px 20px; }
+    header .wrap, main { max-width:1050px; margin:auto; }
+    header p { color:#dbeafe; margin-bottom:0; }
+    main { padding:22px 16px 48px; }
+    .intro { background:white; border:1px solid var(--line); border-radius:14px; padding:18px; margin-bottom:18px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:16px; }
+    section { background:white; border:1px solid var(--line); border-radius:14px; padding:18px; box-shadow:0 4px 14px #0f172a08; }
+    h2 { font-size:1.12rem; margin:0 0 10px; }
+    h3 { font-size:1rem; margin:14px 0 6px; }
+    .tag { display:inline-block; color:#1d4ed8; background:var(--soft); padding:3px 9px; border-radius:20px; font-size:.8rem; margin-bottom:8px; }
+    label { display:block; font-weight:600; margin:9px 0 4px; }
+    input { width:100%; padding:10px; border:1px solid #cbd5e1; border-radius:8px; font:inherit; }
+    button { border:0; border-radius:8px; background:var(--accent); color:white; padding:9px 12px; margin:5px 4px 4px 0; cursor:pointer; font:inherit; }
+    button.secondary { background:#475569; } button.light { background:#e2e8f0; color:#172033; }
+    button:hover { filter:brightness(.94); }
+    .output { min-height:28px; padding:9px 10px; margin-top:8px; border-radius:8px; background:#f8fafc; border:1px dashed #cbd5e1; overflow-wrap:anywhere; }
+    .menu-row { display:flex; gap:9px; align-items:center; margin:7px 0; }
+    .menu-row input { width:auto; }
+    .menu-row label { margin:0; font-weight:400; }
+    .wide { grid-column:1/-1; }
+    .note { color:var(--muted); font-size:.9rem; }
+    footer { text-align:center; color:var(--muted); padding:18px; }
+    .hidden { display:none; }
+    @media(max-width:600px) { header {padding:24px 16px;} }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <span class="tag">PEMROGRAMAN WEB • PERTEMUAN 6</span>
+    <h1>Praktikum 5: JavaScript Dasar</h1>
+    <p>Variabel, operator, function, percabangan, perulangan, DOM, form, dan validasi.</p>
+  </div>
+</header>
+<main>
+  <div class="intro">
+    <strong>Petunjuk:</strong> Jalankan file ini di browser. Setiap bagian merupakan latihan praktikum.
+    Untuk melihat hasil <code>console.log()</code>, tekan <kbd>F12</kbd> lalu buka tab <b>Console</b>.
+    Dialog <code>alert()</code> dan <code>prompt()</code> muncul saat tombol yang sesuai ditekan.
+  </div>
+
+  <div class="grid">
+    <section>
+      <span class="tag">Latihan 1</span>
+      <h2>Menampilkan output</h2>
+      <p>Menampilkan teks pada halaman dan Console.</p>
+      <p id="pesan">Konten awal.</p>
+      <button onclick="latihan1()">Tampilkan Hello World</button>
+      <div class="output" id="out1">Hasil akan tampil di sini.</div>
+    </section>
+
+    <section>
+      <span class="tag">Latihan 2</span>
+      <h2>Alert dan prompt</h2>
+      <p>Meminta nama pengguna, lalu menampilkan salam.</p>
+      <button onclick="latihan2()">Masukkan nama</button>
+      <div class="output" id="out2">Belum ada nama yang dimasukkan.</div>
+    </section>
+
+    <section>
+      <span class="tag">Latihan 3</span>
+      <h2>Function dan operasi aritmetika</h2>
+      <label for="angkaA">Bilangan pertama</label>
+      <input id="angkaA" type="number" value="9">
+      <label for="angkaB">Bilangan kedua</label>
+      <input id="angkaB" type="number" value="4">
+      <button onclick="latihan3()">Hitung operasi</button>
+      <div class="output" id="out3">Hasil operasi akan tampil di sini.</div>
+    </section>
+
+    <section>
+      <span class="tag">Latihan 4</span>
+      <h2>Seleksi kondisi if–else</h2>
+      <label for="nilaiLulus">Nilai mahasiswa (0–100)</label>
+      <input id="nilaiLulus" type="number" min="0" max="100" placeholder="Contoh: 76">
+      <button onclick="latihan4()">Periksa kelulusan</button>
+      <div class="output" id="out4">Masukkan nilai untuk diperiksa.</div>
+    </section>
+
+    <section>
+      <span class="tag">Latihan 5</span>
+      <h2>Seleksi kondisi switch</h2>
+      <label for="pilihanBilangan">Pilih angka 1–5</label>
+      <input id="pilihanBilangan" type="number" min="1" max="5" step="1" placeholder="Masukkan angka 1 sampai 5">
+      <button onclick="latihan5()">Tampilkan nama bilangan</button>
+      <div class="output" id="out5">Nama bilangan akan tampil di sini.</div>
+    </section>
+
+    <section>
+      <span class="tag">Latihan 6</span>
+      <h2>Form bilangan genap atau ganjil</h2>
+      <label for="bilangan">Masukkan bilangan bulat</label>
+      <input id="bilangan" type="number" step="1" placeholder="Contoh: 17">
+      <button onclick="cekBilangan()">Periksa</button>
+      <div class="output" id="hasilBilangan">Hasil pemeriksaan akan tampil di sini.</div>
+    </section>
+
+    <section>
+      <span class="tag">Latihan 7</span>
+      <h2>Mengubah warna halaman</h2>
+      <p>Function menggunakan parameter warna untuk mengubah latar halaman.</p>
+      <button onclick="ubahWarnaLatar('lightgreen')">Latar Hijau</button>
+      <button onclick="ubahWarnaLatar('white')" class="secondary">Latar Putih</button>
+      <button onclick="ubahWarnaLatar('lightyellow')" class="light">Latar Kuning</button>
+      <div class="output" id="out7">Pilih tombol warna untuk mengubah latar halaman.</div>
+    </section>
+
+    <section>
+      <span class="tag">Latihan 8</span>
+      <h2>DOM dan checkbox menu makanan</h2>
+      <div class="menu-row"><input type="checkbox" class="menu" id="ayam" value="5000"><label for="ayam">Ayam goreng — Rp5.000</label></div>
+      <div class="menu-row"><input type="checkbox" class="menu" id="tempe" value="500"><label for="tempe">Tempe — Rp500</label></div>
+      <div class="menu-row"><input type="checkbox" class="menu" id="telur" value="2500"><label for="telur">Telur dadar — Rp2.500</label></div>
+      <div class="menu-row"><input type="checkbox" class="menu" id="sayur" value="3000"><label for="sayur">Sayur — Rp3.000</label></div>
+      <div class="menu-row"><input type="checkbox" class="menu" id="nasi" value="4000"><label for="nasi">Nasi — Rp4.000</label></div>
+      <div class="output">Total: <strong id="total">Rp0</strong></div>
+    </section>
+
+    <section class="wide">
+      <span class="tag">Mini Project</span>
+      <h2>Kalkulator Nilai Mahasiswa</h2>
+      <p>Nilai akhir = tugas 30% + UTS 30% + UAS 40%. Predikat mengikuti ketentuan modul.</p>
+      <div class="grid">
+        <div><label for="nilaiTugas">Nilai Tugas (0–100)</label><input id="nilaiTugas" type="number" min="0" max="100" placeholder="Contoh: 85"></div>
+        <div><label for="nilaiUTS">Nilai UTS (0–100)</label><input id="nilaiUTS" type="number" min="0" max="100" placeholder="Contoh: 78"></div>
+        <div><label for="nilaiUAS">Nilai UAS (0–100)</label><input id="nilaiUAS" type="number" min="0" max="100" placeholder="Contoh: 88"></div>
+      </div>
+      <button onclick="hitungNilaiMahasiswa()">Hitung nilai akhir</button>
+      <button class="secondary" onclick="isiContohNilai()">Isi contoh modul</button>
+      <div class="output" id="hasilNilai">Hasil kalkulasi akan tampil di sini.</div>
+    </section>
+
+    <section>
+      <span class="tag">Eksperimen Mandiri</span>
+      <h2>Tabel perkalian 7</h2>
+      <button onclick="tampilkanPerkalian()">Tampilkan tabel</button>
+      <div class="output" id="outPerkalian">Hasil tabel perkalian akan tampil di sini.</div>
+    </section>
+
+    <section>
+      <span class="tag">Eksperimen Mandiri</span>
+      <h2>Cek genap dan sembunyikan teks</h2>
+      <label for="angkaEksperimen">Bilangan bulat</label>
+      <input id="angkaEksperimen" type="number" step="1" placeholder="Masukkan bilangan">
+      <button onclick="cekGenapEksperimen()">Cek genap</button>
+      <button class="secondary" onclick="toggleInfo()">Sembunyikan/Tampilkan teks</button>
+      <div class="output" id="outEksperimen">Hasil eksperimen akan tampil di sini.</div>
+      <p id="infoTambahan">JavaScript dapat memanipulasi konten dan tampilan elemen HTML.</p>
+    </section>
+  </div>
+</main>
+<footer>Praktikum 5 JavaScript Dasar • Lab5Web</footer>
+<script src="script.js"></script>
+</body>
+</html>
